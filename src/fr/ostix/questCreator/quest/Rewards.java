@@ -21,6 +21,10 @@ public class Rewards {
         return rewardsItems;
     }
 
+    public void setMoneyAmount(int moneyAmount) {
+        this.moneyAmount = moneyAmount;
+    }
+
     public int getMoneyAmount() {
         return moneyAmount;
     }

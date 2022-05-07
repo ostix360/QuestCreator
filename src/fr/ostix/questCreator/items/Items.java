@@ -6,7 +6,7 @@ public class Items {
 
     private static final HashMap<Integer, Item> items = new HashMap<>();
 
-    public static Item potion = registerItem(new ItemPotion(0));
+    public static Item potion = registerItem(new ItemPotion("Potion",0));
 
 
     private static Item registerItem(Item i) {
@@ -14,6 +14,12 @@ public class Items {
         return i;
     }
 
+
+    //Return list of Items
+
+    public static Collection<Item> getItems() {
+        return items.values();
+    }
 
     public static Item getItem(int id) {
         return items.get(id);

@@ -2,10 +2,13 @@ package fr.ostix.questCreator.quest;
 
 import fr.ostix.questCreator.quest.serialization.*;
 
+import javax.swing.*;
+
 public abstract class Quest implements IQuestSerializer {
     private int id;
     private int npcID;
     private String title;
+
     private String description;
     private Rewards rewards;
     private QuestStatus status;
@@ -71,4 +74,7 @@ public abstract class Quest implements IQuestSerializer {
         return title;
     }
 
+    public abstract String getType();
+
+    public abstract JPanel getPanel();
 }

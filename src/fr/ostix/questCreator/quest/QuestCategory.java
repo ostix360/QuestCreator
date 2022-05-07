@@ -6,26 +6,25 @@ import java.util.*;
 
 public class QuestCategory {
 
-    public HashMap<Integer, Quest> quests;
-    public int id;
-    public String title;
+    public List<Quest> quests = new ArrayList<>();
+    private int id;
+    private String title;
     private QuestStatus status;
 
     public QuestCategory() {
         this.id = -1;
         this.title = "";
-        this.quests = new HashMap<>();
         status = QuestStatus.UNAVAILABLE;
     }
 
-    public QuestCategory(HashMap<Integer, Quest> quests, int id, String title) {
+    public QuestCategory(List<Quest> quests, int id, String title) {
         this.quests = quests;
         this.id = id;
         this.title = title;
     }
 
     public static QuestCategory load(String questFile) {
-        final HashMap<Integer, Quest> quests = new HashMap<>();
+        final List<Quest> quests = new ArrayList<>();
         String content = JsonUtils.loadJson(questFile);
         String[] lines = content.split("\n");
         String[] values = lines[0].split(";");
@@ -49,7 +48,7 @@ public class QuestCategory {
                     i++;
                     continue;
             }
-            quests.put(q.getId(), q);
+            quests.add(q);
 
         }
         return new QuestCategory(quests,id,title);
@@ -57,8 +56,8 @@ public class QuestCategory {
 
     public String save() {
         final StringBuilder content = new StringBuilder();
-        content.append(this.id).append(";").append(this.title).append(";").append(this.quests.values().size()).append("\n");
-        for (Quest q : this.quests.values()) {
+        content.append(this.id).append(";").append(this.title).append(";").append(this.quests.size()).append("\n");
+        for (Quest q : this.quests) {
             if (q instanceof QuestItem) {
                 content.append("QuestItem").append("\n");
             } else if (q instanceof QuestLocation) {
@@ -72,11 +71,14 @@ public class QuestCategory {
     }
 
     public List<Quest> quests() {
-        return new ArrayList<>(this.quests.values());
+        return this.quests;
     }
 
     public String getName() {
         return this.title;
     }
 
+    public int getId() {
+        return this.id;
+    }
 }

@@ -2,6 +2,7 @@ package fr.ostix.questCreator.quest;
 
 import fr.ostix.questCreator.json.*;
 
+import javax.swing.*;
 import java.util.*;
 
 public class QuestDialog extends Quest {
@@ -18,6 +19,16 @@ public class QuestDialog extends Quest {
 
     public List<String> getDialogs() {
         return dialogs;
+    }
+
+    @Override
+    public String getType() {
+        return "Dialogue";
+    }
+
+    @Override
+    public JPanel getPanel() {
+        return null;
     }
 
     @Override

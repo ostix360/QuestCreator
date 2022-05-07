@@ -19,6 +19,14 @@ public class ItemStack {
         return count;
     }
 
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     @Override
     public String toString() {
         return item.toString();
