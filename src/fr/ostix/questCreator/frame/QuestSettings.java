@@ -11,6 +11,8 @@ import java.awt.*;
 import java.text.*;
 import java.util.*;
 
+import static fr.ostix.questCreator.utils.Utils.createIntTextField;
+
 public class QuestSettings extends JPanel {
 
     private Quest q;
@@ -110,7 +112,7 @@ public class QuestSettings extends JPanel {
         mainSettings.add(LID, gc);
 
         gc.gridx = 1;
-        final JFormattedTextField id = createTextField();
+        final JFormattedTextField id = createIntTextField();
         id.setValue(q.getId());
         id.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
@@ -145,7 +147,7 @@ public class QuestSettings extends JPanel {
         mainSettings.add(LNPC, gc);
 
         gc.gridx = 1;
-        final ImprovedFormattedTextField npc = createTextField();
+        final ImprovedFormattedTextField npc = createIntTextField();
         npc.setValue(q.getNpc());
         npc.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
@@ -248,7 +250,7 @@ public class QuestSettings extends JPanel {
 
         gc.gridx = 1;
 
-        final JFormattedTextField moneyAmount = createTextField();
+        final JFormattedTextField moneyAmount = createIntTextField();
         moneyAmount.setValue(r.getMoneyAmount());
         moneyAmount.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
@@ -286,7 +288,7 @@ public class QuestSettings extends JPanel {
         gc.weightx = 2;
         gc.gridx = 1;
         gc.gridy = 2;
-        final JFormattedTextField itemCount = createTextField();
+        final JFormattedTextField itemCount = createIntTextField();
         if (!r.getRewardsItems().isEmpty()) {
             itemCount.setValue(((ItemStack) Objects.requireNonNull(items.getSelectedItem())).getCount());
         }
@@ -334,13 +336,7 @@ public class QuestSettings extends JPanel {
     }
 
 
-    private ImprovedFormattedTextField createTextField() {
-        NumberFormat integerNumberInstance = NumberFormat.getIntegerInstance();
-        integerNumberInstance.setParseIntegerOnly(true);
-        ImprovedFormattedTextField text = new ImprovedFormattedTextField(integerNumberInstance, 100);
-        text.setColumns(5);
-        return text;
-    }
+
 
     private GridBagConstraints getGC(int gridy) {
         GridBagConstraints gc = new GridBagConstraints();
