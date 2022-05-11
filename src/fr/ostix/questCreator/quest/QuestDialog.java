@@ -1,7 +1,10 @@
 package fr.ostix.questCreator.quest;
 
+import com.google.gson.*;
+import com.google.gson.annotations.*;
 import fr.ostix.questCreator.frame.*;
 import fr.ostix.questCreator.json.*;
+import fr.ostix.questCreator.quest.serialization.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -10,8 +13,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import java.util.List;
+import java.util.stream.*;
 
 public class QuestDialog extends Quest {
+    @Expose
     private final List<String> dialogs;
 
     private final JPanel panel = new JPanel();
@@ -21,7 +26,6 @@ public class QuestDialog extends Quest {
 
     private final JTextArea textArea = new JTextArea(30,30);
 
-    //TODO limit variable for serialization
     private final JScrollPane scrollPane;
     private final List<DialogPanel> dialogPanels = new ArrayList<>();
 
@@ -38,8 +42,18 @@ public class QuestDialog extends Quest {
 
     @Override
     public String save() {
-        questTexts.stream().sorted()
-        return JsonUtils.gsonInstance().toJson(this);
+        dialogs.clear();
+        questTexts.stream()
+                .sorted(Comparator.comparingInt(QuestText::getIndex))
+                .collect(Collectors.toList())
+                .forEach((qt) -> dialogs.add(qt.getText()));
+        Gson gson= new GsonBuilder()
+                .setPrettyPrinting()
+                .excludeFieldsWithoutExposeAnnotation()
+                .registerTypeAdapter(Rewards.class, new RewardsTypeAdapter())
+                .create();
+
+        return gson.toJson(this);
     }
 
     public List<String> getDialogs() {
@@ -53,6 +67,7 @@ public class QuestDialog extends Quest {
 
     @Override
     public JPanel getPanel() {
+        panel.removeAll();
         GridBagConstraints gc = new GridBagConstraints();
         gc.gridx = 0;
         gc.gridy = 0;

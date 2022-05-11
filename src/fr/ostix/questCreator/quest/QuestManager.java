@@ -7,7 +7,6 @@ public class QuestManager {
     private final Map<Integer, Quest> quests;
     private final List<Integer> questing;
 
-    //TODO Event system
 
     public QuestManager() {
         quests = new HashMap<>();

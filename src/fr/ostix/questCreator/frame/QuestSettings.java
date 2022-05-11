@@ -289,7 +289,9 @@ public class QuestSettings extends JPanel {
         gc.gridx = 1;
         gc.gridy = 2;
         final JFormattedTextField itemCount = createIntTextField();
-        if (!r.getRewardsItems().isEmpty()) {
+        if (r.getRewardsItems().isEmpty()) {
+            itemCount.setValue(0);
+        }else{
             itemCount.setValue(((ItemStack) Objects.requireNonNull(items.getSelectedItem())).getCount());
         }
         itemCount.getDocument().addDocumentListener(new DocumentListener() {

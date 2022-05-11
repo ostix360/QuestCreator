@@ -1,8 +1,6 @@
 package fr.ostix.questCreator.quest;
 
-import be.pcl.swing.*;
 import fr.ostix.questCreator.frame.*;
-import fr.ostix.questCreator.items.*;
 import fr.ostix.questCreator.json.*;
 import fr.ostix.questCreator.utils.*;
 import org.joml.*;
@@ -10,12 +8,8 @@ import org.joml.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
-import java.text.*;
-import java.util.*;
-import java.util.regex.*;
 
-import static fr.ostix.questCreator.utils.Utils.createFloatTextField;
-import static fr.ostix.questCreator.utils.Utils.extractFloat;
+import static fr.ostix.questCreator.utils.Utils.*;
 
 public class QuestLocation extends Quest {
     private final Vector3f pos;

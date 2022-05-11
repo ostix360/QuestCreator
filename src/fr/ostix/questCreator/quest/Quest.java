@@ -1,16 +1,23 @@
 package fr.ostix.questCreator.quest;
 
+import com.google.gson.annotations.*;
 import fr.ostix.questCreator.quest.serialization.*;
 
 import javax.swing.*;
 
 public abstract class Quest implements IQuestSerializer {
+    @Expose
     private int id;
+    @Expose
     private int npcID;
+    @Expose
     private String title;
 
+    @Expose
     private String description;
+    @Expose
     private Rewards rewards;
+    @Expose
     private QuestStatus status;
 
     public Quest() {

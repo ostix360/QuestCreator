@@ -1,5 +1,6 @@
 package fr.ostix.questCreator.quest;
 
+import fr.ostix.questCreator.frame.*;
 import fr.ostix.questCreator.json.*;
 
 import java.util.*;
@@ -11,10 +12,14 @@ public class QuestCategory {
     private String title;
     private QuestStatus status;
 
-    public QuestCategory() {
-        this.id = -1;
-        this.title = "";
-        status = QuestStatus.UNAVAILABLE;
+    public QuestCategory(int id, String title, QuestStatus status) {
+        this.id = id;
+        this.title = title;
+        this.status = status;
+    }
+
+    public static QuestCategory createQuestCategory(){
+        return new QuestCategoryFrame().getQuestCategory();
     }
 
     public QuestCategory(List<Quest> quests, int id, String title) {
@@ -56,7 +61,7 @@ public class QuestCategory {
 
     public String save() {
         final StringBuilder content = new StringBuilder();
-        content.append(this.id).append(";").append(this.title).append(";").append(this.quests.size()).append("\n");
+        content.append(this.id).append(";").append(this.title).append(";").append(this.quests.size()).append(';').append(status.toString()).append("\n");
         for (Quest q : this.quests) {
             if (q instanceof QuestItem) {
                 content.append("QuestItem").append("\n");

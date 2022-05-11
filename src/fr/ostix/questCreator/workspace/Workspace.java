@@ -11,7 +11,7 @@ public class Workspace {
     private File questFile;
 
     public void newQuestCategory(){
-        category = new QuestCategory();
+        category = QuestCategory.createQuestCategory();
     }
 
     public void openQuestCategory(){
@@ -36,7 +36,7 @@ public class Workspace {
     }
 
     private void openFile() throws IOException {
-        questFile = new File(Config.OUTPUT_FOLDER + "\\" , category.getName()+"*"+category.getId()+".quest");
+        questFile = new File(Config.OUTPUT_FOLDER + "\\" , category.getName()+"."+category.getId()+".quest");
         if (!questFile.exists()){
             questFile.getParentFile().mkdirs();
             questFile.createNewFile();
