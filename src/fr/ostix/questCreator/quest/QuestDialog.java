@@ -2,9 +2,11 @@ package fr.ostix.questCreator.quest;
 
 import com.google.gson.*;
 import com.google.gson.annotations.*;
+import com.sun.deploy.util.*;
 import fr.ostix.questCreator.frame.*;
 import fr.ostix.questCreator.json.*;
 import fr.ostix.questCreator.quest.serialization.*;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -24,7 +26,7 @@ public class QuestDialog extends Quest {
     private final List<QuestText> questTexts = new ArrayList<>();
     private final JPanel mainPanel = new JPanel();
 
-    private final JTextArea textArea = new JTextArea(30,30);
+    private final JTextArea textArea = new JTextArea(3,30);
 
     private final JScrollPane scrollPane;
     private final List<DialogPanel> dialogPanels = new ArrayList<>();
@@ -48,7 +50,6 @@ public class QuestDialog extends Quest {
                 .collect(Collectors.toList())
                 .forEach((qt) -> dialogs.add(qt.getText()));
         Gson gson= new GsonBuilder()
-                .setPrettyPrinting()
                 .excludeFieldsWithoutExposeAnnotation()
                 .registerTypeAdapter(Rewards.class, new RewardsTypeAdapter())
                 .create();
@@ -86,7 +87,67 @@ public class QuestDialog extends Quest {
         gc.gridy = 1;
         this.panel.add(scrollPane,gc);
         gc.gridy = 2;
+        textArea.setLineWrap(true);
+        textArea.setBorder(BorderFactory.createTitledBorder("Speech Bubble"));
+        textArea.setWrapStyleWord(true);
+
+
+        int charMax = 101;
+        JLabel charCntLabel = new JLabel("100 Characters max");
+        textArea.addKeyListener(new KeyListener() {
+            boolean ignoreInput = false;
+            @Override
+            public void keyTyped(KeyEvent e) {
+                return;
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                // If we should be ignoring input then set make sure we
+                // enforce max character count and remove the newly typed key.
+                if(ignoreInput)
+                    textArea.setText(textArea.getText().substring(0,
+                            100));
+                if (StringUtils.countMatches(textArea.getText(),"\n") > 2){
+                    textArea.setText(textArea.getText().replaceFirst("\n",""));
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int newLen = 0;
+
+                // The key has just been pressed so Swing hasn't updated
+                // the text area with the new KeyEvent.
+                int currLen = textArea.getText().length();
+
+                // Adjust newLen depending on whether the user just pressed
+                // the backspace key or not.
+
+                if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                    newLen = currLen - 1;
+                    ignoreInput = false;
+                }
+                else
+                    newLen = currLen + 1;
+                charCntLabel.setText(newLen +"/100");
+                if(newLen < 0)
+                    newLen = 0;
+
+               if(newLen >= charMax) {
+                    ignoreInput = true;
+
+                }
+            }
+        });
         this.panel.add(textArea,gc);
+        gc.gridy = 3;
+        this.panel.add(charCntLabel,gc);
+        questTexts.clear();
+        for (int i = 0; i < dialogs.size();i++){
+            questTexts.add(new QuestText(i,dialogs.get(i)));
+        }
+        notifyAddingNewDialog();
         return panel;
     }
 

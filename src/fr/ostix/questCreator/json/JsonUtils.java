@@ -10,7 +10,7 @@ public class JsonUtils {
 
     public static Gson gsonInstance() {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setPrettyPrinting().registerTypeAdapter(Rewards.class, new RewardsTypeAdapter());
+        gsonBuilder.registerTypeAdapter(Rewards.class, new RewardsTypeAdapter());
         return gsonBuilder.create();
     }
 

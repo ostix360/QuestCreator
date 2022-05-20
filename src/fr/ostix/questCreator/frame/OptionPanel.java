@@ -30,7 +30,7 @@ public class OptionPanel {
         JButton button = new JButton("Valider");
         button.addActionListener((e) -> {
             try (
-                    FileWriter writer = new FileWriter(Config.optionFile);) {
+                    FileWriter writer = new FileWriter(Config.optionFile)) {
                 if (!Config.optionFile.exists()){
                     Config.optionFile.getParentFile().mkdirs();
                     Config.optionFile.createNewFile();

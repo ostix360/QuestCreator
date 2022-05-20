@@ -30,7 +30,7 @@ public class MainFrame {
 
     public MainFrame() {
         this.frame = new JFrame("QuestEditor");
-        workspace = new Workspace();
+        workspace = new Workspace(this);
         this.initFrame();
         this.initIcon();
         this.initMainPanel();

@@ -169,7 +169,6 @@ public class QuestSettings extends JPanel {
                         return;
                     }
                     q.setNpcID(value);
-                    System.out.println(value);
                 }
             }
         });

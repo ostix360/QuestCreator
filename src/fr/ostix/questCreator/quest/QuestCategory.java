@@ -22,31 +22,31 @@ public class QuestCategory {
         return new QuestCategoryFrame().getQuestCategory();
     }
 
-    public QuestCategory(List<Quest> quests, int id, String title) {
+    public QuestCategory(List<Quest> quests, int id, String title,QuestStatus status) {
         this.quests = quests;
         this.id = id;
         this.title = title;
+        this.status = status;
     }
 
-    public static QuestCategory load(String questFile) {
+    public static QuestCategory load(String content) {
         final List<Quest> quests = new ArrayList<>();
-        String content = JsonUtils.loadJson(questFile);
         String[] lines = content.split("\n");
         String[] values = lines[0].split(";");
         int id = Integer.parseInt(values[0]);
         String title = values[1];
-        int nbQuest = Integer.parseInt(values[2]) + 1;
-        for (int i = 1; i < nbQuest; i++) {
+        QuestStatus status = QuestStatus.valueOf(values[3]);
+        for (int i = 1; i < lines.length; i++) {
             Quest q;
             switch (lines[i]) {
                 case "QuestItem":
-                    q = QuestItem.load(lines[i++]);
+                    q = QuestItem.load(lines[++i]);
                     break;
                 case "QuestLocation":
-                    q = QuestLocation.load(lines[i++]);
+                    q = QuestLocation.load(lines[++i]);
                     break;
                 case "QuestDialog":
-                    q = QuestDialog.load(lines[i++]);
+                    q = QuestDialog.load(lines[++i]);
                     break;
                 default:
                     new Exception("Quest type not found");
@@ -56,8 +56,14 @@ public class QuestCategory {
             quests.add(q);
 
         }
-        return new QuestCategory(quests,id,title);
+        return new QuestCategory(quests,id,title,status);
     }
+
+    //1;Welcome;2;AVAILABLE
+    //QuestDialog
+    //{"dialogs":["Bonjour et bienvenue dans ce monde\nIci c\u0027est l\u0027apocalipse autrement tout va bien\nBonne journée ciao","hep hep hep pas si vite\nrevient ici vous allez venir sauver le monde\nBon alors déjà venez par là"],"id": 1,"npcID": 0,"title": "hello","description": "Que fait tu ici.\nA ce que je vois tu connais déjà le jeu.\nBon alors bon courage.","rewards": {"items": [],"money": 0},"status": "AVAILABLE" }
+    //QuestLocation
+    //{"pos":{"x":40.0,"y":10.0,"z":30.0},"range":5.0,"id":2,"npcID":0,"title":"teste de déplacemement","description":"Rendez vous par ici","rewards":{"items":[],"money":0},"status":"UNAVAILABLE"}
 
     public String save() {
         final StringBuilder content = new StringBuilder();
