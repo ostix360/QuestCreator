@@ -1,13 +1,11 @@
 package fr.ostix.questCreator.frame;
 
 import fr.ostix.questCreator.quest.*;
-import fr.ostix.questCreator.utils.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 
 import static fr.ostix.questCreator.utils.Utils.createIntTextField;
 
@@ -22,6 +20,7 @@ public class QuestCategoryFrame {
     private QuestStatus status = QuestStatus.AVAILABLE;
 
     private final GridBagConstraints gc = new GridBagConstraints();
+    private int nextQuest = -1;
 
 
     public QuestCategoryFrame() {
@@ -113,6 +112,38 @@ public class QuestCategoryFrame {
         final JComboBox<QuestStatus> type = new JComboBox<>(possible);
         type.addActionListener(e -> status = (QuestStatus) type.getSelectedItem());
         shapesPanel.add(type);
+
+        gc.gridx = 0;
+        gc.gridy = 2;
+
+        final JLabel LNext = new JLabel("Next Quest : ");
+        LNext.setFont(MainFrame.SMALL_FONT);
+        frame.add(LNext, gc);
+
+        gc.gridx = 1;
+        final JFormattedTextField next = createIntTextField();
+        next.setValue(-1);
+        next.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                warn();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                warn();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                warn();
+            }
+
+            public void warn() {
+                if (next.getText().matches("\\d+")) {
+                    nextQuest = Integer.parseInt(next.getText());
+                }
+            }
+        });
+        this.frame.add(next, gc);
+
     }
 
 
@@ -157,6 +188,6 @@ public class QuestCategoryFrame {
     }
 
     public QuestCategory getQuestCategory() {
-        return new QuestCategory(id,title,status);
+        return new QuestCategory(id,title,status, nextQuest);
     }
 }

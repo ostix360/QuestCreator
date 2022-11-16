@@ -1,7 +1,6 @@
 package fr.ostix.questCreator.quest;
 
 import fr.ostix.questCreator.frame.*;
-import fr.ostix.questCreator.json.*;
 
 import java.util.*;
 
@@ -11,22 +10,25 @@ public class QuestCategory {
     private int id;
     private String title;
     private QuestStatus status;
+    private int nextQuest;
 
-    public QuestCategory(int id, String title, QuestStatus status) {
+    public QuestCategory(int id, String title, QuestStatus status, int nextQuest) {
         this.id = id;
         this.title = title;
         this.status = status;
+        this.nextQuest = nextQuest;
     }
 
     public static QuestCategory createQuestCategory(){
         return new QuestCategoryFrame().getQuestCategory();
     }
 
-    public QuestCategory(List<Quest> quests, int id, String title,QuestStatus status) {
+    public QuestCategory(List<Quest> quests, int id, String title,QuestStatus status, int nextQuest) {
         this.quests = quests;
         this.id = id;
         this.title = title;
         this.status = status;
+        this.nextQuest = nextQuest;
     }
 
     public static QuestCategory load(String content) {
@@ -35,6 +37,7 @@ public class QuestCategory {
         String[] values = lines[0].split(";");
         int id = Integer.parseInt(values[0]);
         String title = values[1];
+        int nextQuest = Integer.parseInt(values[4]);
         QuestStatus status = QuestStatus.valueOf(values[3]);
         for (int i = 1; i < lines.length; i++) {
             Quest q;
@@ -56,7 +59,7 @@ public class QuestCategory {
             quests.add(q);
 
         }
-        return new QuestCategory(quests,id,title,status);
+        return new QuestCategory(quests,id,title,status,nextQuest);
     }
 
     //1;Welcome;2;AVAILABLE
@@ -67,7 +70,7 @@ public class QuestCategory {
 
     public String save() {
         final StringBuilder content = new StringBuilder();
-        content.append(this.id).append(";").append(this.title).append(";").append(this.quests.size()).append(';').append(status.toString()).append("\n");
+        content.append(this.id).append(";").append(this.title).append(";").append(this.quests.size()).append(';').append(status.toString()).append(";").append(nextQuest).append("\n");
         for (Quest q : this.quests) {
             if (q instanceof QuestItem) {
                 content.append("QuestItem").append("\n");

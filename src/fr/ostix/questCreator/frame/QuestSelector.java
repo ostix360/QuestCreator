@@ -24,7 +24,6 @@ public class QuestSelector extends JPanel {
         mainPanel.setLayout(new GridBagLayout());
         scrollPane = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(480, 210));
-        //TODO if it does not work properly place this line here ||
         this.add(scrollPane);
     }
 
@@ -35,7 +34,6 @@ public class QuestSelector extends JPanel {
 
         this.quests.clear();
 
-        // TODO ||
 
         initPanel();
         mainPanel.validate();

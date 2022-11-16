@@ -21,7 +21,7 @@ public class QuestDialog extends Quest {
     @Expose
     private final List<String> dialogs;
 
-    private final JPanel panel = new JPanel();
+    private final JPanel panel;
 
     private final List<QuestText> questTexts = new ArrayList<>();
     private final JPanel mainPanel = new JPanel();
@@ -36,6 +36,7 @@ public class QuestDialog extends Quest {
         mainPanel.setLayout(new GridBagLayout());
         scrollPane = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(480, 210));
+        panel = new JPanel();
     }
 
     public static QuestDialog load(String questData) {
@@ -76,8 +77,8 @@ public class QuestDialog extends Quest {
         final JButton add = new JButton("Add");
         add.setFont(MainFrame.SMALL_FONT);
         add.addActionListener((e) -> {
-            String s =  new String("Write here");
-//            dialogs.add(s);
+            String s = "Write here";
+            dialogs.add(s);
             questTexts.add(new QuestText(questTexts.size(), s));
             notifyAddingNewDialog();
             selecting(questTexts.get(questTexts.size()-1));
@@ -173,7 +174,7 @@ public class QuestDialog extends Quest {
                 if (text.equals("")) {
                     return;
                 }
-//                dialogs.set(index,text);
+                dialogs.set(s.getIndex(),text);
                 qt.setText(text);
             }
         });
@@ -280,6 +281,7 @@ public class QuestDialog extends Quest {
             if (i != 0) {
                 Collections.swap(dialogPanels, i, i - 1);
                 Collections.swap(questTexts, i, i - 1);
+                Collections.swap(dialogs, i, i - 1);
                 text.setIndex(i-1);
                 notifyAddingNewDialog();
             }
@@ -294,6 +296,7 @@ public class QuestDialog extends Quest {
             if (i != questTexts.size() - 1) {
                 Collections.swap(dialogPanels, i, i + 1);
                 Collections.swap(questTexts, i, i + 1);
+                Collections.swap(dialogs, i, i + 1);
                 text.setIndex(i+1);
                 notifyAddingNewDialog();
             }
