@@ -45,11 +45,13 @@ public class QuestDialog extends Quest {
 
     @Override
     public String save() {
-        dialogs.clear();
-        questTexts.stream()
-                .sorted(Comparator.comparingInt(QuestText::getIndex))
-                .collect(Collectors.toList())
-                .forEach((qt) -> dialogs.add(qt.getText()));
+        if (dialogs.size() == questTexts.size()) {
+            dialogs.clear();
+            questTexts.stream()
+                    .sorted(Comparator.comparingInt(QuestText::getIndex))
+                    .collect(Collectors.toList())
+                    .forEach((qt) -> dialogs.add(qt.getText()));
+        }
         Gson gson= new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .registerTypeAdapter(Rewards.class, new RewardsTypeAdapter())

@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
+import java.util.List;
 
 import static fr.ostix.questCreator.utils.Utils.createIntTextField;
 
@@ -23,7 +25,20 @@ public class QuestCategoryFrame {
     private int nextQuest = -1;
 
 
+
     public QuestCategoryFrame() {
+        setUpFrame();
+        addLabel();
+        addComponents();
+        addButton();
+        this.frame.setVisible(true);
+    }
+
+    public QuestCategoryFrame(QuestCategory c) {
+        this.id = c.getId();
+        this.title = c.getName();
+        this.status = c.getStatus();
+        this.nextQuest = c.getNextQuest();
         setUpFrame();
         addLabel();
         addComponents();
@@ -42,6 +57,7 @@ public class QuestCategoryFrame {
         gc.gridx = 1;
         final JTextField title = new JTextField("", 20);
         title.setFont(MainFrame.SMALL_FONT);
+        title.setText(this.title);
         title.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
                 warn();
@@ -74,7 +90,7 @@ public class QuestCategoryFrame {
 
         gc.gridx = 1;
         final JFormattedTextField id = createIntTextField();
-        id.setValue(-1);
+        id.setValue(this.id);
         id.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
                 warn();
@@ -110,11 +126,12 @@ public class QuestCategoryFrame {
 
         QuestStatus[] possible = QuestStatus.values();
         final JComboBox<QuestStatus> type = new JComboBox<>(possible);
+        type.setSelectedItem(this.status);
         type.addActionListener(e -> status = (QuestStatus) type.getSelectedItem());
         shapesPanel.add(type);
 
         gc.gridx = 0;
-        gc.gridy = 2;
+        gc.gridy = 4;
 
         final JLabel LNext = new JLabel("Next Quest : ");
         LNext.setFont(MainFrame.SMALL_FONT);
@@ -122,7 +139,7 @@ public class QuestCategoryFrame {
 
         gc.gridx = 1;
         final JFormattedTextField next = createIntTextField();
-        next.setValue(-1);
+        next.setValue(nextQuest);
         next.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) {
                 warn();
@@ -143,8 +160,8 @@ public class QuestCategoryFrame {
             }
         });
         this.frame.add(next, gc);
-
     }
+
 
 
     private void setUpFrame() {
@@ -163,7 +180,7 @@ public class QuestCategoryFrame {
         confirm.setFont(new Font("Segoe UI", Font.BOLD, 15));
         GridBagConstraints gc = new GridBagConstraints();
         gc.gridx = 1;
-        gc.gridy = 4;
+        gc.gridy = 5;
         gc.weightx = 1.0D;
         gc.weighty = 0.4D;
         confirm.addActionListener(new ActionListener() {
@@ -189,5 +206,9 @@ public class QuestCategoryFrame {
 
     public QuestCategory getQuestCategory() {
         return new QuestCategory(id,title,status, nextQuest);
+    }
+
+    public void setQuestCategory(QuestCategory category) {
+        category.set(id,title,status,nextQuest);
     }
 }

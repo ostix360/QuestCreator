@@ -63,12 +63,19 @@ public class MenuBar extends JMenuBar{
         quest.add(questCategorySettings);
 
         addAddQuestFunction(add);
+        addQuestCategorySettings(questCategorySettings);
 
         quest.setFont(new Font("Segoe UI", 1, 12));
 
         add.setFont(new Font("Segoe UI", 1, 12));
         questCategorySettings.setFont(new Font("Segoe UI", 1, 12));
 
+    }
+
+    private void addQuestCategorySettings(JMenuItem questCategorySettings) {
+        questCategorySettings.addActionListener( e -> {
+            new QuestCategoryFrame(workspace.getCategory()).setQuestCategory(workspace.getCategory());
+        });
     }
 
     private void addAddQuestFunction(JMenuItem add){

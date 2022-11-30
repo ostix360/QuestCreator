@@ -95,4 +95,19 @@ public class QuestCategory {
     public int getId() {
         return this.id;
     }
+
+    public QuestStatus getStatus() {
+        return status;
+    }
+
+    public int getNextQuest() {
+        return nextQuest;
+    }
+
+    public void set(int id, String title, QuestStatus status, int nextQuest) {
+        this.id = id;
+        this.title = title;
+        this.status = status;
+        this.nextQuest = nextQuest;
+    }
 }
