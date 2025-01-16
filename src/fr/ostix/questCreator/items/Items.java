@@ -7,6 +7,7 @@ public class Items {
     private static final HashMap<Integer, Item> items = new HashMap<>();
 
     public static Item potion = registerItem(new ItemPotion("Potion",0));
+    public static Item privateDiary = registerItem(new ItemPrivateDiary("Private Diary",1));
 
 
     private static Item registerItem(Item i) {
